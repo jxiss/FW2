@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>💖 Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Pacifico&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#ff9a9e,#fbc2eb,#ffb6c1);
+    overflow:hidden;
+    font-family:'Playfair Display', serif;
+    animation:pageBeat 1.4s infinite;
+}
+
+@keyframes pageBeat {
+    0% { transform:scale(1); }
+    25% { transform:scale(1.01); }
+    50% { transform:scale(1); }
+    75% { transform:scale(1.015); }
+    100% { transform:scale(1); }
+}
+
+.card {
+    background:#fff0f5;
+    border-radius:30px;
+    padding:50px 40px;
+    text-align:center;
+    box-shadow:0 0 50px rgba(255,105,180,0.5);
+    max-width:380px;
+    position:relative;
+    z-index:2;
+}
+
+.question {
+    font-size:42px;
+    font-style:italic;
+    color:#ff1493;
+    margin-bottom:35px;
+}
+
+button {
+    padding:14px 32px;
+    font-size:20px;
+    border:none;
+    border-radius:40px;
+    cursor:pointer;
+    margin:10px;
+    font-family:'Pacifico', cursive;
+}
+
+#yesBtn {
+    background:#ff4d6d;
+    color:white;
+}
+
+#noBtn {
+    background:#ff69b4;
+    color:white;
+    position:fixed;
+    font-size:18px;
+    border:2px solid #ff1493;
+    z-index:5;
+}
+
+/* Floating emojis */
+.floating {
+    position:absolute;
+    font-size:22px;
+    opacity:0.8;
+    animation:floatUp linear forwards;
+}
+
+@keyframes floatUp {
+    0% { transform:translateY(0); }
+    100% { transform:translateY(-100vh); opacity:0; }
+}
+
+/* Final page */
+#finalPage {
+    display:none;
+    text-align:center;
+    color:white;
+    animation:pageBeat 1.4s infinite;
+}
+
+#finalPage h1 {
+    font-family:'Pacifico', cursive;
+    font-size:110px; /* bigger Yaaay */
+}
+
+#finalPage p {
+    font-size:50px; /* bigger You are now my Valentine */
+    margin-top:20px;
+}
+
+/* Fireworks */
+.firework {
+    position:fixed;
+    font-size:30px;
+    animation:explode 2s forwards;
+}
+
+@keyframes explode {
+    0% { transform:scale(0.5); opacity:1; }
+    100% { transform:scale(2); opacity:0; }
+}
+
+/* 🌸 Flower animation */
+.flower {
+    position:fixed;
+    font-size:26px;
+    animation:flowerFloat 8s linear forwards;
+    opacity:0.9;
+}
+
+@keyframes flowerFloat {
+    0% {
+        transform:translateY(100vh) rotate(0deg);
+        opacity:1;
+    }
+    100% {
+        transform:translateY(-120vh) rotate(360deg);
+        opacity:0;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+    <div class="question">Will you be my Valentine? 💌</div>
+    <button id="yesBtn">Yes 💖</button>
+</div>
+
+<button id="noBtn">No 😅</button>
+
+<div id="finalPage">
+    <h1>Yaaay 💖</h1>
+    <p>You are now my Valentine 😊💘</p>
+</div>
+
+<audio id="music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3">
+</audio>
+
+<script>
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const card = document.getElementById("card");
+const finalPage = document.getElementById("finalPage");
+const music = document.getElementById("music");
+
+/* NO button movement */
+function moveNo(){
+    const margin = 20;
+    const maxX = window.innerWidth - noBtn.offsetWidth - margin;
+    const maxY = window.innerHeight - noBtn.offsetHeight - margin;
+
+    noBtn.style.left = Math.random()*maxX + margin + "px";
+    noBtn.style.top  = Math.random()*maxY + margin + "px";
+}
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+/* Floating hearts (first page) */
+function floatLove(){
+    const emojis = ["💖","💕","💘","✨"];
+    const e = document.createElement("div");
+    e.className = "floating";
+    e.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+    e.style.left = Math.random()*window.innerWidth+"px";
+    e.style.top = window.innerHeight+"px";
+    e.style.animationDuration = (Math.random()*4 + 6) + "s";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),10000);
+}
+setInterval(floatLove, 900);
+
+/* Fireworks */
+function fireworks(){
+    const f = document.createElement("div");
+    f.className = "firework";
+    f.innerHTML = "🎆";
+    f.style.left = Math.random()*window.innerWidth+"px";
+    f.style.top = Math.random()*window.innerHeight+"px";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),2000);
+}
+
+/* 🌸 Flowers */
+function flowers(){
+    const flowerEmojis = ["🌸","🌺","🌷","💐"];
+    const fl = document.createElement("div");
+    fl.className = "flower";
+    fl.innerHTML = flowerEmojis[Math.floor(Math.random()*flowerEmojis.length)];
+    fl.style.left = Math.random()*window.innerWidth+"px";
+    document.body.appendChild(fl);
+    setTimeout(()=>fl.remove(),8000);
+}
+
+/* ❤️ Emoji explosion on final page */
+function emojiExplosion(){
+    const emojis = ["💖","💕","💘","💞","💓","😍","🥰","✨"];
+    for(let i=0;i<10;i++){
+        const e = document.createElement("div");
+        e.className = "floating";
+        e.innerHTML = emojis[Math.floor(Math.random()*emojis.length)];
+        e.style.left = Math.random()*window.innerWidth+"px";
+        e.style.top = window.innerHeight + "px";
+        e.style.animationDuration = (Math.random()*3 + 4) + "s";
+        document.body.appendChild(e);
+        setTimeout(()=>e.remove(),8000);
+    }
+}
+
+/* YES click */
+yesBtn.addEventListener("click",()=>{
+    music.volume = 0.6;
+    music.play().catch(()=>{});
+    card.style.display="none";
+    noBtn.style.display="none";
+    finalPage.style.display="block";
+
+    setInterval(fireworks, 700);
+    setInterval(flowers, 900);
+    setInterval(emojiExplosion, 500); // continuous emoji explosion
+});
+</script>
+
+</body>
+</html>
